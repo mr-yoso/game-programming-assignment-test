@@ -24,7 +24,8 @@ public class PlayerAnimationManager : MonoBehaviour
         if (movement.jumpCount == 2)
         {
             animator.SetTrigger("doFlip");
-            movement.jumpCount = 0;
+            movement.jumpCount++;
         }
+        
     }
 }

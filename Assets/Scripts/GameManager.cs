@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     public int score = 0;
+    
+    public int[] sceneScores = new int[3];
+
 
     void Awake()
     {
@@ -27,14 +30,32 @@ public class GameManager : MonoBehaviour
         Debug.Log(points + " points added to the Score");
     }
 
-    public void LoadNewScene()
+    public void LoadNextScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        sceneScores[currentSceneIndex] = score;
+        Debug.Log("Score for Scene " + currentSceneIndex + ": " + score);
+
+        score = 0;
+
+        SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
     public void ReloadCurrentScene()
     {
         score = 0;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    // Optionally, get the score for a specific scene
+    public int GetScoreForScene(int sceneIndex)
+    {
+        if (sceneIndex >= 0 && sceneIndex < sceneScores.Length)
+        {
+            return sceneScores[sceneIndex];
+        }
+
+        return 0; // Return 0 if the scene index is out of bounds
     }
 }

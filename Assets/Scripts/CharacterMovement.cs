@@ -57,10 +57,24 @@ public class CharacterMovement : MonoBehaviour
             jumpCount = 0;
         }
 
-        if (Input.GetButtonDown("Jump") && jumpCount < maxJumpCount)
+        // First jump only allowed if grounded and jump count is less than maximum jump count.
+        if (Input.GetButtonDown("Jump") && isGrounded && jumpCount == 0)
         {
+            Debug.Log("Jump Count: " + jumpCount);
+            // Apply the first jump
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
-            jumpCount++;
+            jumpCount++; // Increment jump count after first jump
+            Debug.Log("Jump Count: " + jumpCount);
+
+        }
+        // Allow second jump (double jump) if the player is not grounded and jump count is less than maxJumpCount
+        else if (Input.GetButtonDown("Jump") && !isGrounded && jumpCount == 1)
+        {
+            Debug.Log("Jump Count: " + jumpCount);
+            // Apply the second jump
+            playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+            jumpCount++; // Increment jump count after second jump
+            Debug.Log("Jump Count: " + jumpCount);
         }
 
         if (powerUpTimer > 0)
@@ -89,6 +103,10 @@ public class CharacterMovement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Goal"))
+        {
+            GameManager.instance.LoadNextScene();
+        }
         if (other.CompareTag("PowerUp"))
         {
             EnableDoubleJump();
