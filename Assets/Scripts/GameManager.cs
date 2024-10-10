@@ -6,10 +6,9 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public int score = 0;
     
-    public int[] sceneScores = new int[3];
-
+    public int score = 0;
+    public int[] sceneScores = { 0, 0, 0 };
 
     void Awake()
     {
@@ -27,25 +26,35 @@ public class GameManager : MonoBehaviour
     public void IncrementScore(int points)
     {
         score += points;
-        Debug.Log(points + " points added to the Score");
+        Debug.Log($"{points} points added to the Score");
     }
 
     public void LoadNextScene()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        sceneScores[currentSceneIndex] = score;
-        Debug.Log("Score for Scene " + currentSceneIndex + ": " + score);
+        if (currentSceneIndex >= 0 && currentSceneIndex <= sceneScores.Length)
+        {
+            sceneScores[currentSceneIndex - 1] = score;
+        }
 
-        score = 0;
-
+        UpdateTotalScore();
         SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
     public void ReloadCurrentScene()
     {
-        score = 0;
+        UpdateTotalScore();
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private void UpdateTotalScore()
+    {
+        score = 0;
+        foreach (int sceneScore in sceneScores)
+        {
+            score += sceneScore;
+        }
     }
 
     // Optionally, get the score for a specific scene

@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 4025927594316520087}
   - component: {fileID: 1577225240318974940}
   - component: {fileID: 2584529683959715715}
+  - component: {fileID: 3731466380254541336}
+  - component: {fileID: -3248237411707486073}
   m_Layer: 0
   m_Name: Points
   m_TagString: Collectible
@@ -4917,9 +4919,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1807bc8e6f0b1504e97b3b6737ec0943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amplitude: 0.1
-  speed: 0
-  rotationSpeed: 50
   points: 50
-  collectiblePrefab: {fileID: 2006917130212658601}
-  spawnPositions: []
+--- !u!114 &3731466380254541336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006917130212658601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 139590ba82695f44db6f6f2f42e3559a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 0.25
+  speed: 3
+--- !u!114 &-3248237411707486073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2006917130212658601}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6922a059293fcca4a8b1768407d578a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationSpeed: 100

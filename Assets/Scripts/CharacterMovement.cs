@@ -20,6 +20,8 @@ public class CharacterMovement : MonoBehaviour
     private float powerUpTimer = 0f;
     private float doubleJumpDuration = 30.0f;
 
+    public Transform cameraTransform;  // Reference to the main camera
+
     private CharacterController controller;
     private Animator animator;
 
@@ -33,7 +35,7 @@ public class CharacterMovement : MonoBehaviour
 
     void ProcessMovement()
     {
-        move = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        CalculateMovement();
         // Turns the player towards the direction he is heading 
         if (move != Vector3.zero)
         {
@@ -50,6 +52,25 @@ public class CharacterMovement : MonoBehaviour
         controller.Move(move * Time.deltaTime * ((isRunning) ? runSpeed : walkSpeed));
     }
 
+    void CalculateMovement()
+    {
+        // Get input and camera orientation
+        Vector3 forward = cameraTransform.forward;
+        Vector3 right = cameraTransform.right;
+
+        forward.y = 0f;  // We don't want vertical movement
+        right.y = 0f;
+
+        forward.Normalize();
+        right.Normalize();
+
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+
+        // Calculate move direction relative to camera
+        move = forward * vertical + right * horizontal;
+    }
+
     void HandleJumping()
     {
         if (isGrounded)
@@ -57,23 +78,10 @@ public class CharacterMovement : MonoBehaviour
             jumpCount = 0;
         }
 
-        // First jump only allowed if grounded and jump count is less than maximum jump count.
-        if (Input.GetButtonDown("Jump") && isGrounded && jumpCount == 0)
+        if (Input.GetButtonDown("Jump") && (isGrounded || (jumpCount == 1 && powerUpTimer > 0)) && jumpCount < maxJumpCount)
         {
-            Debug.Log("Jump Count: " + jumpCount);
-            // Apply the first jump
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
-            jumpCount++; // Increment jump count after first jump
-            Debug.Log("Jump Count: " + jumpCount);
-
-        }
-        // Allow second jump (double jump) if the player is not grounded and jump count is less than maxJumpCount
-        else if (Input.GetButtonDown("Jump") && !isGrounded && jumpCount == 1)
-        {
-            Debug.Log("Jump Count: " + jumpCount);
-            // Apply the second jump
-            playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
-            jumpCount++; // Increment jump count after second jump
+            jumpCount++;
             Debug.Log("Jump Count: " + jumpCount);
         }
 
@@ -84,6 +92,7 @@ public class CharacterMovement : MonoBehaviour
             {
                 DisableDoubleJump();
             }
+
         }
     }
 

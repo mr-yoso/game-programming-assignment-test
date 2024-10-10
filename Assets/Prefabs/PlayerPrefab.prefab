@@ -1689,8 +1689,9 @@ MonoBehaviour:
   maxJumpCount: 1
   jumpCount: 0
   gravity: -9.18
-  isGrounded: 0
+  isGrounded: 1
   isRunning: 0
+  cameraTransform: {fileID: 6280802578324598959, guid: 881af84b59c18024f91a408d9835b7be, type: 3}
 --- !u!95 &6718690084881166210
 Animator:
   serializedVersion: 5

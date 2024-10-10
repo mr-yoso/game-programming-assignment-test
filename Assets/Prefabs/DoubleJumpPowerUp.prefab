@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3614744963813491458}
   - component: {fileID: 8084232560717110569}
   - component: {fileID: 7800967570761543797}
+  - component: {fileID: -3428464633852166190}
   - component: {fileID: -5784514139145837531}
   - component: {fileID: -7903872585289892253}
   m_Layer: 0
@@ -121,8 +122,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnTime: 30
-  amplitude: 0.25
-  speed: 1.5
+--- !u!114 &-3428464633852166190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6617504214432566696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 139590ba82695f44db6f6f2f42e3559a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  amplitude: 0.2
+  speed: 4
 --- !u!198 &-5784514139145837531
 ParticleSystem:
   m_ObjectHideFlags: 0

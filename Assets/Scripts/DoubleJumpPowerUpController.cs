@@ -5,8 +5,6 @@ using UnityEngine;
 public class DoubleJumpPowerUpController : MonoBehaviour
 {
     public float respawnTime = 30.0f;
-    public float amplitude = 0.5f;
-    public float speed = 1f;
 
     private Vector3 startPosition;
     private Collider powerUpCollider;
@@ -20,12 +18,6 @@ public class DoubleJumpPowerUpController : MonoBehaviour
         powerUpCollider = GetComponent<Collider>();  // Get the Collider component
         powerUpRenderer = GetComponent<Renderer>();  // Get the Renderer component
         powerUpParticles = GetComponent<ParticleSystem>();
-    }
-
-    private void Update()
-    {
-        float newY = startPosition.y + amplitude * Mathf.Sin(Time.time * speed);
-        transform.position = new Vector3(startPosition.x, newY, startPosition.z);
     }
 
     public void StartRespawn()
