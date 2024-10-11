@@ -9,6 +9,7 @@ TagManager:
   - Collectible
   - TrapPlane
   - Goal
+  - MovingPlatform
   layers:
   - Default
   - TransparentFX

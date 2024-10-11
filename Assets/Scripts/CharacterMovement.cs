@@ -16,7 +16,9 @@ public class CharacterMovement : MonoBehaviour
     public float gravity = -9.18f;
     public bool isGrounded;
     public bool isRunning;
-
+    public bool isOnPlatform = false;
+    
+    private Transform platformTransform = null;
     private float powerUpTimer = 0f;
     private float doubleJumpDuration = 30.0f;
 
@@ -25,8 +27,10 @@ public class CharacterMovement : MonoBehaviour
     private CharacterController controller;
     private Animator animator;
 
+
     private void Start()
     {
+        transform.position = new Vector3(92.9800034f, 102f, -74.9599991f);
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         startingPosition = transform.position;
@@ -116,7 +120,7 @@ public class CharacterMovement : MonoBehaviour
         {
             GameManager.instance.LoadNextScene();
         }
-        if (other.CompareTag("PowerUp"))
+        else if (other.CompareTag("PowerUp"))
         {
             EnableDoubleJump();
 
@@ -135,7 +139,6 @@ public class CharacterMovement : MonoBehaviour
             {
                 points.Collect();
             }
-
         }
         else if (other.CompareTag("DeathPlane") || other.CompareTag("TrapPlane"))
         {
@@ -143,6 +146,29 @@ public class CharacterMovement : MonoBehaviour
             controller.enabled = false;  // Disable the CharacterController to change position
             transform.position = startingPosition;  // Reset position
             controller.enabled = true;   // Re-enable the CharacterController after resetting
+        }
+        else if (other.CompareTag("MovingPlatform"))
+        {
+            isOnPlatform = true;
+            platformTransform = other.transform.parent;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // Detach character from the platform when it exits the platform
+        if (other.CompareTag("MovingPlatform"))
+        {
+            isOnPlatform = false;
+            transform.parent = null;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (isOnPlatform)
+        {
+            transform.parent = platformTransform;
         }
     }
 

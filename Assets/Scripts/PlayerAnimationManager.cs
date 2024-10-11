@@ -21,6 +21,11 @@ public class PlayerAnimationManager : MonoBehaviour
         animator.SetFloat("CharacterSpeed", movement.GetAnimationSpeed());
         animator.SetBool("IsFalling", !movement.isGrounded);
 
+        if (movement.isOnPlatform)
+        {
+            animator.SetBool("IsFalling", false);
+        }
+
         if (movement.jumpCount == 2)
         {
             animator.SetTrigger("doFlip");

@@ -42,4 +42,5 @@ public class DoubleJumpPowerUpController : MonoBehaviour
         powerUpCollider.enabled = true;
         powerUpRenderer.enabled = true;
     }
+
 }
