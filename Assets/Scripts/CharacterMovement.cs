@@ -30,7 +30,7 @@ public class CharacterMovement : MonoBehaviour
 
     private void Start()
     {
-        transform.position = new Vector3(92.9800034f, 102f, -74.9599991f);
+        // transform.position = new Vector3(92.9800034f, 102f, -74.9599991f);
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         startingPosition = transform.position;

@@ -8,8 +8,14 @@ public class CameraController : MonoBehaviour
     public Vector3 offset; // Offset distance between player and camera
 
     public float rotationSpeed = 5f; // Speed of camera rotation
+    public float zoomSpeed = 2f; // Speed of camera zooming
+    public float minZoomDistance = 2f; // Minimum zoom distance
+    public float maxZoomDistance = 10f; // Maximum zoom distance
 
     private float currentYaw = 0f; // Current rotation angle on the Y-axis
+    private float currentPitch = 0f; // Current rotation angle on the X-axis
+    public float minPitch = -30f; // Minimum vertical rotation angle
+    public float maxPitch = 60f;  // Maximum vertical rotation angle
 
     private void Start()
     {
@@ -24,35 +30,60 @@ public class CameraController : MonoBehaviour
     {
         if (player == null) return;
 
+        // Handle camera zoom
+        HandleZoom();
+
+        // Rotate the camera based on mouse input
+        RotateCamera();
+
         // Follow the player by maintaining the offset position
         FollowPlayer();
-
-        // Rotate the camera around the player based on mouse input
-        RotateCamera();
     }
 
     // Method to follow the player's position
     private void FollowPlayer()
     {
-        transform.position = player.position + offset;
-    }
-
-    // Method to rotate the camera around the player
-    private void RotateCamera()
-    {
-        // Get mouse input on the X-axis (Mouse X) and apply it to the camera's Y rotation (yaw)
-        float mouseX = Input.GetAxis("Mouse X");
-
-        // Adjust current yaw (Y-axis rotation) based on mouse input
-        currentYaw += mouseX * rotationSpeed;
-
-        // Rotate the camera around the player's Y-axis
-        Quaternion rotation = Quaternion.Euler(0, currentYaw, 0);
-
-        // Apply rotation to the camera around the player
-        transform.position = player.position + rotation * offset;
+        // Recalculate position based on updated offset (for zooming)
+        transform.position = player.position + Quaternion.Euler(currentPitch, currentYaw, 0) * offset;
 
         // Always look at the player
         transform.LookAt(player);
+    }
+
+    private void RotateCamera()
+    {
+        // Get mouse input for both X and Y axes
+        float mouseX = Input.GetAxis("Mouse X");
+        float mouseY = Input.GetAxis("Mouse Y");
+
+        // Adjust yaw (Y-axis rotation) and pitch (X-axis rotation) based on mouse input
+        currentYaw += mouseX * rotationSpeed;
+
+        // Update pitch based on mouse input and clamp it to prevent flipping
+        currentPitch -= mouseY * rotationSpeed; // Subtract to reverse the direction for mouse input
+        currentPitch = Mathf.Clamp(currentPitch, minPitch, maxPitch); // Clamp pitch within range
+
+        // Apply the rotation to the camera
+        Quaternion rotation = Quaternion.Euler(currentPitch, currentYaw, 0);
+        transform.position = player.position + rotation * offset;
+
+        // Make the camera look at the player
+        transform.LookAt(player);
+    }
+
+    // Method to handle camera zooming
+    private void HandleZoom()
+    {
+        // Get the scroll wheel input
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+        // Adjust the offset's magnitude (distance) based on scroll input
+        float newDistance = offset.magnitude - scroll * zoomSpeed;
+
+        // Clamp the new distance within the min and max zoom distances
+        newDistance = Mathf.Clamp(newDistance, minZoomDistance, maxZoomDistance);
+
+        // Update the offset to match the new distance
+        offset = offset.normalized * newDistance;
     }
 }
