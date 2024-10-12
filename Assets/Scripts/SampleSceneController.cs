@@ -9,10 +9,7 @@ public class SampleSceneController : MonoBehaviour
 
     public void Start()
     {
-        if (GameManager.instance)
-        {
-            scoreText.text = "Score: " + GameManager.instance.score.ToString();
-        }
+        UpdateScoreUI();
     }
 
     public void Update()

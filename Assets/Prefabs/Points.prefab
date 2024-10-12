@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4025927594316520087}
   - component: {fileID: 1577225240318974940}
   - component: {fileID: 2584529683959715715}
-  - component: {fileID: 3731466380254541336}
+  - component: {fileID: 2498828134717716547}
   - component: {fileID: -3248237411707486073}
   m_Layer: 0
   m_Name: Points
@@ -4920,7 +4920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   points: 50
---- !u!114 &3731466380254541336
+--- !u!114 &2498828134717716547
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4929,11 +4929,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2006917130212658601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 139590ba82695f44db6f6f2f42e3559a, type: 3}
+  m_Script: {fileID: 11500000, guid: ba3c1e02a6c694f47b42d4a1f00fe6dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amplitude: 0.25
-  speed: 3
+  floatAmplitude: 0.2
+  floatSpeed: 1.5
 --- !u!114 &-3248237411707486073
 MonoBehaviour:
   m_ObjectHideFlags: 0

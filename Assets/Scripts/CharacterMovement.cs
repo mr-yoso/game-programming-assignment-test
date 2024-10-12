@@ -16,13 +16,11 @@ public class CharacterMovement : MonoBehaviour
     public float gravity = -9.18f;
     public bool isGrounded;
     public bool isRunning;
-    public bool isOnPlatform = false;
     
-    private Transform platformTransform = null;
     private float powerUpTimer = 0f;
     private float doubleJumpDuration = 30.0f;
 
-    public Transform cameraTransform;  // Reference to the main camera
+    public Transform cameraTransform;
 
     private CharacterController controller;
     private Animator animator;
@@ -30,7 +28,6 @@ public class CharacterMovement : MonoBehaviour
 
     private void Start()
     {
-        // transform.position = new Vector3(92.9800034f, 102f, -74.9599991f);
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         startingPosition = transform.position;
@@ -58,11 +55,10 @@ public class CharacterMovement : MonoBehaviour
 
     void CalculateMovement()
     {
-        // Get input and camera orientation
         Vector3 forward = cameraTransform.forward;
         Vector3 right = cameraTransform.right;
 
-        forward.y = 0f;  // We don't want vertical movement
+        forward.y = 0f;
         right.y = 0f;
 
         forward.Normalize();
@@ -143,32 +139,9 @@ public class CharacterMovement : MonoBehaviour
         else if (other.CompareTag("DeathPlane") || other.CompareTag("TrapPlane"))
         {
             GameManager.instance.ReloadCurrentScene();
-            controller.enabled = false;  // Disable the CharacterController to change position
-            transform.position = startingPosition;  // Reset position
-            controller.enabled = true;   // Re-enable the CharacterController after resetting
-        }
-        else if (other.CompareTag("MovingPlatform"))
-        {
-            isOnPlatform = true;
-            platformTransform = other.transform.parent;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        // Detach character from the platform when it exits the platform
-        if (other.CompareTag("MovingPlatform"))
-        {
-            isOnPlatform = false;
-            transform.parent = null;
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (isOnPlatform)
-        {
-            transform.parent = platformTransform;
+            controller.enabled = false;
+            transform.position = startingPosition;
+            controller.enabled = true;
         }
     }
 

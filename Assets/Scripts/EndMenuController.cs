@@ -20,6 +20,6 @@ public class EndMenuController : MonoBehaviour
 
     public void RestartGame()
     {
-        SceneManager.LoadScene(1);
+        GameManager.instance.RestartScene();
     }
 }
